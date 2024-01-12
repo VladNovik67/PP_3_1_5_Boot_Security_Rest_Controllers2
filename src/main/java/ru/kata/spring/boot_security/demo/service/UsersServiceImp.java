@@ -62,17 +62,19 @@ public class UsersServiceImp implements UserService, UserDetailsService {
     @Transactional
     public User findUserById(long count) {
         Optional<User> foundUser = userRepository.findById(count);
+
         return foundUser.orElse(null);
     }
 
-    public User ffindByUserName(String firstName) {
-        return userRepository.findByUsername(firstName);
+    public User ffindByUserName(String username) {
+        return userRepository.findByUsername(username);
     }
 
 
     @Override
-    public UserDetails loadUserByUsername(String firstName) throws UsernameNotFoundException {
-        User user = ffindByUserName(firstName);
+    @Transactional
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = ffindByUserName(username);
 
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
