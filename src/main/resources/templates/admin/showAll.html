@@ -11,7 +11,7 @@
 <body>
 
 <div th:each="user : ${userss}">
-    <a th:href="@{/users/(id=${user.getId()})}" th:text="${user.getUsername()}">person</a>
+    <a th:href="@{/admin/(id=${user.getId()})}" th:text="${user.getUsername()}">person</a>
 </div>
 
 <!--<div th:each="user : ${userss}">-->
@@ -21,7 +21,7 @@
 <br/>
 <hr/>
 
-<a href="/users/new">Create new person</a>
+<a href="/admin/new">Create new person</a>
 
 
 </body>
