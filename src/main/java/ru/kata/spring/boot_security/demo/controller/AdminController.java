@@ -5,12 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import ru.kata.spring.boot_security.demo.entities.User;
 import ru.kata.spring.boot_security.demo.service.UsersServiceImp;
 
 import java.security.Principal;
 
-@Controller
+@RestController
 @RequestMapping("/admin")
 public class AdminController {
 
@@ -23,7 +24,7 @@ public class AdminController {
 
     @GetMapping("/")
     public String pageForAdmin(Principal principal) {
-        return "/";
+        return "aaaaaaaaaaaaaaaaaaaaa"+" "+principal.getName();
     }
 
     @GetMapping("/read_profile")
@@ -35,5 +36,6 @@ public class AdminController {
     public String pageForAuthenticatedUsers(Principal principal) {
         User user = usersServiceImp.ffindByUserName(principal.getName());
         return "Secured page for web service "+ user.getUsername()+ " " +user.getPassword();
+//        return "admin/authenticated";
     }
 }
