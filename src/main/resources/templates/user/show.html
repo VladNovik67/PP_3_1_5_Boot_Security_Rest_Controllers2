@@ -8,9 +8,9 @@
 <p th:text="${getUserId.getUsername()}">VALUE</p>
 <p th:text="${getUserId.getId()}">VALUE</p>
 
-<a th:href="@{/users/{id}/edit(id=${getUserId.getId()})}">Edit</a>
+<a th:href="@{/templates/user/{id}/edit(id=${getUserId.getId()})}">Edit</a>
 
-<form th:method="DELETE" th:action="@{/users/{id}(id=${getUserId.getId()})}">
+<form th:method="DELETE" th:action="@{/templates/user/{id}(id=${getUserId.getId()})}">
     <input type="submit" value="Delete"/>
 
 </form>

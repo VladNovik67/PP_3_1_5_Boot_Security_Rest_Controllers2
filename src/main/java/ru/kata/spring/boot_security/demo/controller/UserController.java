@@ -9,26 +9,29 @@ import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.entities.User;
 import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
 import ru.kata.spring.boot_security.demo.service.UserService;
+import ru.kata.spring.boot_security.demo.service.UsersServiceImp;
+
+import java.security.Principal;
 
 
 @Controller
-@RequestMapping("/users")
+@RequestMapping("/user")
 public class UserController {
 
-    private final UserService userService;
+    private final UsersServiceImp usersServiceImp;
 
     private final RoleRepository roleRepository;
 
     @Autowired
-    public UserController(UserService userService, RoleRepository roleRepository) {
-        this.userService = userService;
+    public UserController(UsersServiceImp usersServiceImp, RoleRepository roleRepository) {
+        this.usersServiceImp = usersServiceImp;
         this.roleRepository = roleRepository;
     }
 
-    @GetMapping("/")
-    public String show(@RequestParam(value = "id", required = false) long id, Model model) {
-        model.addAttribute("getUserId", userService.findUserById(id));
-        return "users/show";
+    @GetMapping
+    public String show(Model model, Principal principal) {
+        model.addAttribute("getUserId", usersServiceImp.ffindByUserName(principal.getName()));
+        return "user/show";
     }
 
 
