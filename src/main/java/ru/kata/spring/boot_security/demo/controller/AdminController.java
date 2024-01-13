@@ -6,18 +6,25 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import ru.kata.spring.boot_security.demo.entities.Role;
 import ru.kata.spring.boot_security.demo.entities.User;
+import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
 import ru.kata.spring.boot_security.demo.service.UsersServiceImp;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
 
-    final UsersServiceImp usersServiceImp;
+    private final UsersServiceImp usersServiceImp;
+    private final RoleRepository roleRepository;
 
     @Autowired
-    public AdminController(UsersServiceImp usersServiceImp) {
+    public AdminController(UsersServiceImp usersServiceImp, RoleRepository roleRepository) {
         this.usersServiceImp = usersServiceImp;
+        this.roleRepository = roleRepository;
     }
 
 
@@ -33,7 +40,16 @@ public class AdminController {
     }
 
     @GetMapping("/new")
-    public String newUser(@ModelAttribute("user") User user) {
+    public String newUser(@ModelAttribute("user") User user, Model model) {
+//        User user1 = new User();
+//        ModelAndView mav = new ModelAndView("user_form");
+//        modelAndView.addObject("user", new User());
+//
+//        List<Role> roles = (List<Role>) roleRepository.findAll();
+//
+//        modelAndView.addObject("allRoles", roles);
+        model.addAttribute("roles", roleRepository.findAll());
+
         return "admin/new";
     }
 

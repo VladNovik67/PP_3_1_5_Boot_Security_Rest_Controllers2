@@ -22,6 +22,19 @@
     <input type="submit" value="Create!"/>
 </form>
 
+<form th:action="@{/admin/save}" th:object="${user}" method="post">
+    <p>
+        <label>Roles:
+            <input type="checkbox" name="roles"
+                   th:each="role : ${roles}"
+                   th:text="${role.name}"
+                   th:value="${role.id}"
+                   th:field="*{roles}"
+            />
+        </label>
+    </p>
+</form>
+
 <a href="javascript: document.logoutForm.submit()" role="menuitem"> Logout</a>
 
 <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
