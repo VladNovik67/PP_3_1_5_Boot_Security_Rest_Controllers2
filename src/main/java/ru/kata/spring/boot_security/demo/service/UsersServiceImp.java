@@ -23,13 +23,11 @@ import java.util.stream.Collectors;
 @Service
 public class UsersServiceImp implements UserService, UserDetailsService {
 
-//    @PersistenceContext
-//    private EntityManager em;
-
 
     private final RoleRepository roleRepository;
 
     private final UserRepository userRepository;
+
     @Autowired
     public UsersServiceImp(RoleRepository roleRepository, UserRepository userRepository) {
         this.roleRepository = roleRepository;
@@ -79,10 +77,10 @@ public class UsersServiceImp implements UserService, UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), mapRolesToAuthorities(user.getRoles()) );
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
     }
 
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles) {
-        return roles.stream().map(r-> new SimpleGrantedAuthority(r.getName())).collect(Collectors.toList());
+        return roles.stream().map(r -> new SimpleGrantedAuthority(r.getName())).collect(Collectors.toList());
     }
 }

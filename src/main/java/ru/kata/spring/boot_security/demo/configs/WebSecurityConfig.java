@@ -32,10 +32,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .antMatchers("/user/**", "/user").hasAnyAuthority("USER", "ADMIN")
-
-//                .antMatchers("/admin/**").hasRole("ADMIN")
-//                .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
-
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().successHandler(successUserHandler)
@@ -45,62 +41,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll();
     }
 
-    // аутентификация inMemory
-//    @Bean
-//    @Override
-//    public UserDetailsService userDetailsService() {
-//        UserDetails user =
-//                User.withDefaultPasswordEncoder()
-//                        .username("user")
-//                        .password("user")
-//                        .roles("USER")
-//                        .build();
-//        UserDetails admin =
-//                User.withDefaultPasswordEncoder()
-//                        .username("admin")
-//                        .password("admin")
-//                        .roles("ADMIN", "USER")
-//                        .build();
-//
-//        UserDetails admin2 =
-//                User.withDefaultPasswordEncoder()
-//                        .username("admin2")
-//                        .password("admin2")
-//                        .roles("ADMIN", "USER")
-//                        .build();
-//
-//
-//        return new InMemoryUserDetailsManager(user, admin, admin2);
-//    }
-
-    //  jdbcAuthetication
-//    @Bean
-//    public JdbcUserDetailsManager users(DataSource dataSource) {
-//        UserDetails user =
-//                User.withDefaultPasswordEncoder()
-//                        .username("user")
-//                        .password("user")
-//                        .roles("USER")
-//                        .build();
-//        UserDetails admin =
-//                User.withDefaultPasswordEncoder()
-//                        .username("admin")
-//                        .password("admin")
-//                        .roles("ADMIN", "USER")
-//                        .build();
-//
-//        UserDetails admin2 =
-//                User.withDefaultPasswordEncoder()
-//                        .username("admin2")
-//                        .password("admin2")
-//                        .roles("ADMIN", "USER")
-//                        .build();
-//        JdbcUserDetailsManager users = new JdbcUserDetailsManager(dataSource);
-//        users.createUser(user);
-//        users.createUser(admin);
-//        users.createUser(admin2);
-//        return users;
-//    }
 
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {

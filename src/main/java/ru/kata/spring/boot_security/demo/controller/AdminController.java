@@ -6,13 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import ru.kata.spring.boot_security.demo.entities.Role;
 import ru.kata.spring.boot_security.demo.entities.User;
 import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
 import ru.kata.spring.boot_security.demo.service.UsersServiceImp;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
@@ -27,12 +23,12 @@ public class AdminController {
         this.roleRepository = roleRepository;
     }
 
-
     @GetMapping("/")
     public String show(@RequestParam(value = "id", required = false) long id, Model model) {
         model.addAttribute("getUserId", usersServiceImp.findUserById(id));
         return "admin/show";
     }
+
     @GetMapping()
     public String showAll(ModelMap model) {
         model.addAttribute("userss", usersServiceImp.getAllUsers());
@@ -41,19 +37,11 @@ public class AdminController {
 
     @GetMapping("/new")
     public String newUser(@ModelAttribute("user") User user, Model model) {
-//        User user1 = new User();
-//        ModelAndView mav = new ModelAndView("user_form");
-//        modelAndView.addObject("user", new User());
-//
-//        List<Role> roles = (List<Role>) roleRepository.findAll();
-//
-//        modelAndView.addObject("allRoles", roles);
         model.addAttribute("roles", roleRepository.findAll());
-
         return "admin/new";
     }
 
-    @PostMapping()
+    @PostMapping
     public String create(@ModelAttribute("user") User user, Model model) {
         usersServiceImp.saveUser(user);
         return "redirect:/admin";
@@ -76,27 +64,4 @@ public class AdminController {
         usersServiceImp.deleteUser(usersServiceImp.findUserById(id));
         return "redirect:/admin";
     }
-
-
-
-
-
-
-
-//    @GetMapping("/")
-//    public String pageForAdmin(Principal principal) {
-//        return "aaaaaaaaaaaaaaaaaaaaa"+" "+principal.getName();
-//    }
-//
-//    @GetMapping("/read_profile")
-//    public String pageReadProfile(Principal principal) {
-//        return "Profile is " + principal.getName();
-//    }
-//
-//    @GetMapping("/authenticated")
-//    public String pageForAuthenticatedUsers(Principal principal) {
-//        User user = usersServiceImp.ffindByUserName(principal.getName());
-//        return "Secured page for web service "+ user.getUsername()+ " " +user.getPassword();
-////        return "admin/authenticated";
-//    }
 }
