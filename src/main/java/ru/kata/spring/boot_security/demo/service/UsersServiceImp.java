@@ -35,7 +35,7 @@ public class UsersServiceImp implements UserService, UserDetailsService {
     }
 
 
-    @Transactional
+
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
@@ -57,7 +57,7 @@ public class UsersServiceImp implements UserService, UserDetailsService {
     }
 
 
-    @Transactional
+
     public User findUserById(long count) {
         Optional<User> foundUser = userRepository.findById(count);
 
@@ -70,7 +70,7 @@ public class UsersServiceImp implements UserService, UserDetailsService {
 
 
     @Override
-    @Transactional
+//    @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = ffindByUserName(username);
 

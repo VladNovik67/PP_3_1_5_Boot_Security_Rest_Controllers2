@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.entities.User;
-import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
+import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UsersServiceImp;
 
 @Controller
@@ -15,12 +15,12 @@ import ru.kata.spring.boot_security.demo.service.UsersServiceImp;
 public class AdminController {
 
     private final UsersServiceImp usersServiceImp;
-    private final RoleRepository roleRepository;
+    private final RoleService roleService;
 
     @Autowired
-    public AdminController(UsersServiceImp usersServiceImp, RoleRepository roleRepository) {
+    public AdminController(UsersServiceImp usersServiceImp, RoleService roleService) {
         this.usersServiceImp = usersServiceImp;
-        this.roleRepository = roleRepository;
+        this.roleService = roleService;
     }
 
     @GetMapping("/")
@@ -37,7 +37,7 @@ public class AdminController {
 
     @GetMapping("/new")
     public String newUser(@ModelAttribute("user") User user, Model model) {
-        model.addAttribute("roles", roleRepository.findAll());
+        model.addAttribute("roles", roleService.findAllRoles());
         return "admin/new";
     }
 
