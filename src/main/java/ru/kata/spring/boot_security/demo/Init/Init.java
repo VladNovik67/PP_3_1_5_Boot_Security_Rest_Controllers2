@@ -29,6 +29,7 @@ public class Init implements ApplicationListener<ContextRefreshedEvent> {
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
+        String str = "user";
         Role userRole = new Role(1L,"USER");
         if (roleService.getByName("ROLE_USER") == null) {
             roleService.save(userRole);
@@ -40,7 +41,7 @@ public class Init implements ApplicationListener<ContextRefreshedEvent> {
         if (usersServiceImp.findByUsername("user") == null) {
             User user = new User();
             user.setUsername("user");
-            user.setPassword("$2a$12$HJvAkVy3MK4b.1rFeWYVseX6Um55RVLs0OImLwTvJDIJ7ntn7wTg6");
+            user.setPassword(passwordEncoder.encode("user"));
             user.setEmail("test_email");
             Set<Role> role = new HashSet<>();
             role.add(userRole);
@@ -50,7 +51,7 @@ public class Init implements ApplicationListener<ContextRefreshedEvent> {
         if (usersServiceImp.findByUsername("admin") == null) {
             User admin = new User();
             admin.setUsername("admin");
-            admin.setPassword("$2a$12$0W5qCsnHw6/9rN2fXoMp.et/wJYhkVqOycOK5ClZAMKeuPQxun1ri");
+            admin.setPassword(passwordEncoder.encode("admin"));
             admin.setEmail("test_email");
             Set<Role> role = new HashSet<>();
             role.add(adminRole);
