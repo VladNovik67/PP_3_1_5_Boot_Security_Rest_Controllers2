@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.entities.Role;
 import ru.kata.spring.boot_security.demo.entities.User;
-import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
 import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 
 import java.util.Collection;
@@ -24,16 +23,12 @@ import java.util.stream.Collectors;
 public class UsersServiceImp implements UserService, UserDetailsService {
 
 
-    private final RoleRepository roleRepository;
-
     private final UserRepository userRepository;
 
     @Autowired
-    public UsersServiceImp(RoleRepository roleRepository, UserRepository userRepository) {
-        this.roleRepository = roleRepository;
+    public UsersServiceImp(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-
 
 
     public List<User> getAllUsers() {
@@ -55,7 +50,6 @@ public class UsersServiceImp implements UserService, UserDetailsService {
     public void deleteUser(User user) {
         userRepository.deleteById(user.getId());
     }
-
 
 
     public User findUserById(long count) {
@@ -85,6 +79,6 @@ public class UsersServiceImp implements UserService, UserDetailsService {
     }
 
     public User findByUsername(String user) {
-        return userRepository.findByUsername(user) ;
+        return userRepository.findByUsername(user);
     }
 }

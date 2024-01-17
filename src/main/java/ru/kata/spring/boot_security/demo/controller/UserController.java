@@ -6,7 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
 import ru.kata.spring.boot_security.demo.service.UsersServiceImp;
 
 import java.security.Principal;
@@ -18,12 +17,9 @@ public class UserController {
 
     private final UsersServiceImp usersServiceImp;
 
-    private final RoleRepository roleRepository;
-
     @Autowired
-    public UserController(UsersServiceImp usersServiceImp, RoleRepository roleRepository) {
+    public UserController(UsersServiceImp usersServiceImp) {
         this.usersServiceImp = usersServiceImp;
-        this.roleRepository = roleRepository;
     }
 
     @GetMapping
@@ -31,6 +27,4 @@ public class UserController {
         model.addAttribute("getUserId", usersServiceImp.ffindByUserName(principal.getName()));
         return "user/show";
     }
-
-
 }

@@ -2,12 +2,13 @@ package ru.kata.spring.boot_security.demo.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.entities.User;
-import ru.kata.spring.boot_security.demo.service.RoleService;
+import ru.kata.spring.boot_security.demo.service.RoleServiceImp;
 import ru.kata.spring.boot_security.demo.service.UsersServiceImp;
 
 @Controller
@@ -15,12 +16,15 @@ import ru.kata.spring.boot_security.demo.service.UsersServiceImp;
 public class AdminController {
 
     private final UsersServiceImp usersServiceImp;
-    private final RoleService roleService;
+    private final RoleServiceImp roleServiceImp;
+    private final PasswordEncoder passwordEncoder;
+
 
     @Autowired
-    public AdminController(UsersServiceImp usersServiceImp, RoleService roleService) {
+    public AdminController(UsersServiceImp usersServiceImp, RoleServiceImp roleServiceImp, PasswordEncoder passwordEncoder) {
         this.usersServiceImp = usersServiceImp;
-        this.roleService = roleService;
+        this.roleServiceImp = roleServiceImp;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/")
@@ -37,12 +41,13 @@ public class AdminController {
 
     @GetMapping("/new")
     public String newUser(@ModelAttribute("user") User user, Model model) {
-        model.addAttribute("roles", roleService.findAllRoles());
+        model.addAttribute("roles", roleServiceImp.findAllRoles());
         return "admin/new";
     }
 
     @PostMapping
-    public String create(@ModelAttribute("user") User user, Model model) {
+    public String create(@ModelAttribute("user") User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         usersServiceImp.saveUser(user);
         return "redirect:/admin";
     }

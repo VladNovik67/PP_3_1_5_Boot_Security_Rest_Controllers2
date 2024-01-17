@@ -21,8 +21,8 @@ public class User implements UserDetails {
     private String email;
 
 
-//   (cascade = CascadeType.PERSIST)
-@ManyToMany
+    //   (cascade = CascadeType.PERSIST)
+    @ManyToMany
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "users_id"),
             inverseJoinColumns = @JoinColumn(name = "roles_id"))
