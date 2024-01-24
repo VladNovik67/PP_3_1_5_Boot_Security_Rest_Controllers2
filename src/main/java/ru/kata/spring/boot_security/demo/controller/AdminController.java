@@ -11,6 +11,8 @@ import ru.kata.spring.boot_security.demo.entities.User;
 import ru.kata.spring.boot_security.demo.service.RoleServiceImp;
 import ru.kata.spring.boot_security.demo.service.UsersServiceImp;
 
+import java.security.Principal;
+
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -34,8 +36,9 @@ public class AdminController {
     }
 
     @GetMapping()
-    public String showAll(ModelMap model) {
+    public String showAll(ModelMap model, Principal principal) {
         model.addAttribute("userss", usersServiceImp.getAllUsers());
+        model.addAttribute("loginUser", usersServiceImp.ffindByUserName(principal.getName()));
         return "admin/showAll";
     }
 

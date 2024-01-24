@@ -89,6 +89,9 @@ public class User implements UserDetails {
     public Set<Role> getRoles() {
         return roles;
     }
+    public String getRoles2() {
+        return getRoles().toString().replaceAll("\\,|\\[|\\]|\\s", " ");
+    }
 
     public void setRoles(Collection<Role> roles) {
         this.roles = (Set<Role>) roles;
