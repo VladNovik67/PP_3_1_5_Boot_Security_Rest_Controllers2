@@ -39,6 +39,8 @@ public class AdminController {
     public String showAll(ModelMap model, Principal principal) {
         model.addAttribute("userss", usersServiceImp.getAllUsers());
         model.addAttribute("loginUser", usersServiceImp.ffindByUserName(principal.getName()));
+        model.addAttribute("roles", roleServiceImp.findAllRoles());
+        model.addAttribute("userNew", new User());
         return "admin/showAll";
     }
 
@@ -63,6 +65,7 @@ public class AdminController {
 
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("user") User user, @PathVariable("id") long id) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         usersServiceImp.updateUser(user);
         return "redirect:/admin";
     }
