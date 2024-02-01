@@ -54,8 +54,10 @@ public class UsersServiceImp implements UserService, UserDetailsService {
 
     public User findUserById(long count) {
         Optional<User> foundUser = userRepository.findById(count);
-
-        return foundUser.orElse(null);
+        if (foundUser.isEmpty()) {
+            throw new RuntimeException("User not found");
+        }
+        return foundUser.get();
     }
 
 

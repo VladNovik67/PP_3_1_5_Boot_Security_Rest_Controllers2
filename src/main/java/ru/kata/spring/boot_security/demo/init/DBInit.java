@@ -1,4 +1,4 @@
-package ru.kata.spring.boot_security.demo.Init;
+package ru.kata.spring.boot_security.demo.init;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -14,14 +14,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Component
-public class Init implements ApplicationListener<ContextRefreshedEvent> {
+public class DBInit implements ApplicationListener<ContextRefreshedEvent> {
 
     private final RoleServiceImp roleServiceImp;
     private final UsersServiceImp usersServiceImp;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public Init(RoleServiceImp roleServiceImp, UsersServiceImp usersServiceImp, PasswordEncoder passwordEncoder) {
+    public DBInit(RoleServiceImp roleServiceImp, UsersServiceImp usersServiceImp, PasswordEncoder passwordEncoder) {
         this.roleServiceImp = roleServiceImp;
         this.usersServiceImp = usersServiceImp;
         this.passwordEncoder = passwordEncoder;
