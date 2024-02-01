@@ -2,7 +2,6 @@ package ru.kata.spring.boot_security.demo.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -18,14 +17,12 @@ public class AdminController {
 
     private final UsersServiceImp usersServiceImp;
     private final RoleServiceImp roleServiceImp;
-    private final PasswordEncoder passwordEncoder;
 
 
     @Autowired
-    public AdminController(UsersServiceImp usersServiceImp, RoleServiceImp roleServiceImp, PasswordEncoder passwordEncoder) {
+    public AdminController(UsersServiceImp usersServiceImp, RoleServiceImp roleServiceImp) {
         this.usersServiceImp = usersServiceImp;
         this.roleServiceImp = roleServiceImp;
-        this.passwordEncoder = passwordEncoder;
     }
 
 
@@ -41,7 +38,7 @@ public class AdminController {
 
     @PostMapping
     public String create(@ModelAttribute("user") User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPassword(usersServiceImp.getPasswordEncoder(user));
         usersServiceImp.saveUser(user);
         return "redirect:/admin";
     }
@@ -49,7 +46,7 @@ public class AdminController {
 
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("user") User user, @PathVariable("id") long id) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPassword(usersServiceImp.getPasswordEncoder(user));
         usersServiceImp.updateUser(user);
         return "redirect:/admin";
     }

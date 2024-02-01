@@ -7,6 +7,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.entities.Role;
@@ -22,7 +24,7 @@ import java.util.stream.Collectors;
 @Service
 public class UsersServiceImp implements UserService, UserDetailsService {
 
-
+    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
     private final UserRepository userRepository;
 
     @Autowired
@@ -36,22 +38,26 @@ public class UsersServiceImp implements UserService, UserDetailsService {
     }
 
     @Transactional
+    @Override
     public void saveUser(User user) {
         userRepository.save(user);
     }
 
 
     @Transactional
-    public User updateUser(User user) {
-        return userRepository.save(user);
+    @Override
+    public void updateUser(User user) {
+        userRepository.save(user);
     }
 
     @Transactional
+    @Override
     public void deleteUser(User user) {
         userRepository.deleteById(user.getId());
     }
 
 
+    @Override
     public User findUserById(long count) {
         Optional<User> foundUser = userRepository.findById(count);
         if (foundUser.isEmpty()) {
@@ -59,8 +65,6 @@ public class UsersServiceImp implements UserService, UserDetailsService {
         }
         return foundUser.get();
     }
-
-
 
 
     @Override
@@ -77,7 +81,12 @@ public class UsersServiceImp implements UserService, UserDetailsService {
         return roles.stream().map(r -> new SimpleGrantedAuthority(r.getName())).collect(Collectors.toList());
     }
 
+
     public User findByUsername(String user) {
         return userRepository.findByUsername(user);
+    }
+
+    public String getPasswordEncoder(User user) {
+        return passwordEncoder.encode(user.getPassword());
     }
 }

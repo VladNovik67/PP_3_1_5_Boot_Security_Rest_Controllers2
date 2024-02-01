@@ -1,4 +1,4 @@
-package ru.kata.spring.boot_security.demo.init;
+package ru.kata.spring.boot_security.demo.initialization;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
