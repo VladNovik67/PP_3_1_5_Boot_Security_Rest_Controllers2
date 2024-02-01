@@ -4,7 +4,6 @@ package ru.kata.spring.boot_security.demo.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.entities.User;
@@ -29,11 +28,6 @@ public class AdminController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @GetMapping("/")
-    public String show(@RequestParam(value = "id", required = false) long id, Model model) {
-        model.addAttribute("getUserId", usersServiceImp.findUserById(id));
-        return "admin/show";
-    }
 
     @GetMapping()
     public String showAll(ModelMap model, Principal principal) {
@@ -44,11 +38,6 @@ public class AdminController {
         return "admin/showAll";
     }
 
-    @GetMapping("/new")
-    public String newUser(@ModelAttribute("user") User user, Model model) {
-        model.addAttribute("roles", roleServiceImp.findAllRoles());
-        return "admin/new";
-    }
 
     @PostMapping
     public String create(@ModelAttribute("user") User user) {
