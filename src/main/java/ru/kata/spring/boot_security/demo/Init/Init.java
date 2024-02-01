@@ -29,7 +29,6 @@ public class Init implements ApplicationListener<ContextRefreshedEvent> {
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        String str = "user";
         Role userRole = new Role(1L, "USER");
         if (roleServiceImp.getByName("ROLE_USER") == null) {
             roleServiceImp.save(userRole);

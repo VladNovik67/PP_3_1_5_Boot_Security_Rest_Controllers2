@@ -62,16 +62,6 @@ public class User implements UserDetails {
     }
 
     @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", firstName='" + username + '\'' +
-                ", lastName='" + password + '\'' +
-                ", email='" + email + '\'' +
-                '}';
-    }
-
-    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return getRoles();
     }
@@ -122,11 +112,22 @@ public class User implements UserDetails {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(email, user.email) && Objects.equals(roles, user.roles);
+        return Objects.equals(id, user.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, email, roles);
+        return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", roles=" + roles +
+                '}';
     }
 }

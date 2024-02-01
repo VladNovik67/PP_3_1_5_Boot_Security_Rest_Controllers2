@@ -49,7 +49,7 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-1">
             <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                 <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab"
                    aria-controls="v-pills-home" aria-selected="true">Admin</a>
@@ -57,7 +57,7 @@
                    aria-controls="v-pills-profile" aria-selected="false">User</a>
             </div>
         </div>
-        <div class="col-9">
+        <div class="col-11">
             <div class="tab-content" id="v-pills-tabContent">
                 <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
                      aria-labelledby="v-pills-home-tab">
@@ -73,7 +73,6 @@
                                    aria-controls="profile" aria-selected="false">New User</a>
                             </li>
                         </ul>
-
                         <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                                 <div class="container-fluid">
@@ -107,10 +106,10 @@
                                                     <a th:text="${user.getRoles()}"></a>
                                                 </td>
                                                 <td>
-                                                    <a href="#" class="btn btn-info" data-toggle="modal"
-                                                       data-target="#myModal">Edit</a>
+                                                    <button type="button" class="btn btn-info" data-toggle="modal"
+                                                            th:data-target="${'#myModal'+user.id}">Edit</button>
                                                     <!-- Modal -->
-                                                    <div class="modal fade" id="myModal" role="dialog">
+                                                    <div class="modal fade" th:id="${'myModal'+user.id}" role="dialog">
                                                         <div class="modal-dialog">
 
                                                             <!-- Modal content-->
@@ -125,7 +124,7 @@
                                                                 <div class="modal-body">
 
                                                                     <form th:method="PATCH"
-                                                                          th:action="@{/admin/{id}(id = ${user.getId()})}"
+                                                                          th:action="@{/admin/{id}(id = ${user.id})}"
                                                                           th:object="${user}">
                                                                         <div class="form-group">
                                                                             <label for="userId"><strong>ID:</strong></label>
@@ -189,12 +188,12 @@
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <a href="#" class="btn btn-danger" data-toggle="modal"
-                                                       data-target="#myModalDel">Delete</a>
-                                                    <!-- Modal -->
-                                                    <div class="modal fade" id="myModalDel" role="dialog">
-                                                        <div class="modal-dialog">
+                                                    <button type="button" class="btn btn-danger" data-toggle="modal"
+                                                            th:data-target="'#myModalDel' + ${user.id}">Delete</button>
 
+                                                    <!-- Modal -->
+                                                    <div class="modal fade" th:id="${'myModalDel'+user.id}" role="dialog">
+                                                        <div class="modal-dialog">
                                                             <!-- Modal content-->
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
@@ -208,13 +207,13 @@
                                                                 <div class="modal-body">
 
                                                                     <form th:method="DELETE"
-                                                                          th:action="@{/admin/{id}(id = ${user.getId()})}"
+                                                                          th:action="@{/admin/{id}(id = ${user.id})}"
                                                                           th:object="${user}">
                                                                         <div class="form-group">
                                                                             <label for="userIdDel"><strong>ID:</strong></label>
                                                                             <input type="text" class="form-control"
                                                                                    id="userIdDel"
-                                                                                   readonly th:value="${user.getId()}"
+                                                                                   readonly th:value="${user.id}"
                                                                                    name="id">
                                                                         </div>
 
@@ -224,7 +223,7 @@
                                                                             <input type="text" class="form-control"
                                                                                    id="usernameDel"
                                                                                    readonly
-                                                                                   th:value="${user.getUsername()}"
+                                                                                   th:value="${user.username}"
                                                                                    name="username">
                                                                         </div>
 
@@ -233,7 +232,7 @@
                                                                             <input type="text" class="form-control"
                                                                                    id="emailDel"
                                                                                    readonly
-                                                                                   th:value="${user.getEmail()}"
+                                                                                   th:value="${user.email}"
                                                                                    name="email">
                                                                         </div>
 
@@ -244,10 +243,9 @@
                                                                                     name="roles"
                                                                                     multiple
                                                                                     data-live-search="true" readonly>
-                                                                                <option th:each="roles : ${roles}"
+                                                                                <option th:each="roles : ${user.roles}"
                                                                                         th:value="${roles.getId()}"
-                                                                                        th:text="${roles.getName().replace('ROLE_', '')}"
-                                                                                        th:selected="${user.getRoles().contains(role)}"></option>
+                                                                                        th:text="${roles.toString()}"></option>
                                                                             </select>
                                                                         </div>
                                                                         <br>
@@ -336,24 +334,68 @@
                     </div>
                 </div>
                 <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
-                    <div th:each="user : ${loginUser}">
-                        <a href="#" th:href="@{/admin/(id=${user.getId()})}  " th:text="User"
-                        >User</a>
+                    <br><br>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="tab-content" id="v-pills-tabContent1">
+                                    <div class="tab-pane fade show active" id="v-pills-home1" role="tabpanel"
+                                         aria-labelledby="v-pills-home-tab">
+                                        <div class="col-md">
+                                            <h2>User information-page</h2>
+                                            <div class="tab-content" id="myTabContent1">
+                                                <div class="tab-pane fade show active" id="home1" role="tabpanel"
+                                                     aria-labelledby="home-tab">
+                                                    <div class="container-fluid">
+                                                        <div class="alert alert-secondary" role="alert">
+                                                            <h5><p class="font-weight-bolder">About user</p></h5>
+                                                        </div>
+                                                        <div class="container-fluid">
+                                                            <table class="table table-striped">
+                                                                <thead>
+                                                                <tr>
+                                                                    <th>ID</th>
+                                                                    <th>Name</th>
+                                                                    <th>Email</th>
+                                                                    <th>Role</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                <tr th:each="user : ${loginUser}">
+                                                                    <td>
+                                                                        <a th:text="${user.getId()}"></a>
+                                                                    </td>
+                                                                    <td>
+                                                                        <a th:text="${user.getUsername()}"></a>
+                                                                    </td>
+                                                                    <td>
+                                                                        <a th:text="${user.getEmail()}"></a>
+                                                                    </td>
+                                                                    <td>
+                                                                        <a th:text="${user.getRoles()}"></a>
+                                                                    </td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-
 <br/>
 <hr/>
 </div>
 </form>
-<!--<a href="/admin/new">New User</a>-->
-
-
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
@@ -363,9 +405,6 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-
-<!--<script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>-->
-
 </body>
 </head>
 </html>

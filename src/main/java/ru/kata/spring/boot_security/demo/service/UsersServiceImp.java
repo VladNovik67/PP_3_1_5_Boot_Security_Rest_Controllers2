@@ -58,15 +58,12 @@ public class UsersServiceImp implements UserService, UserDetailsService {
         return foundUser.orElse(null);
     }
 
-    public User ffindByUserName(String username) {
-        return userRepository.findByUsername(username);
-    }
+
 
 
     @Override
-//    @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = ffindByUserName(username);
+        User user = findByUsername(username);
 
         if (user == null) {
             throw new UsernameNotFoundException("User not found");

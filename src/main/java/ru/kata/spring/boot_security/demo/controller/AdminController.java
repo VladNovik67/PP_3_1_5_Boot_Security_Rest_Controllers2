@@ -38,7 +38,7 @@ public class AdminController {
     @GetMapping()
     public String showAll(ModelMap model, Principal principal) {
         model.addAttribute("userss", usersServiceImp.getAllUsers());
-        model.addAttribute("loginUser", usersServiceImp.ffindByUserName(principal.getName()));
+        model.addAttribute("loginUser", usersServiceImp.findByUsername(principal.getName()));
         model.addAttribute("roles", roleServiceImp.findAllRoles());
         model.addAttribute("userNew", new User());
         return "admin/showAll";
