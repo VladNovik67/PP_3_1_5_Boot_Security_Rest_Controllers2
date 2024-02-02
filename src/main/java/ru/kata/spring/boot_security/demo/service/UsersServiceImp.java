@@ -40,6 +40,7 @@ public class UsersServiceImp implements UserService, UserDetailsService {
     @Transactional
     @Override
     public void saveUser(User user) {
+        user.setPassword(getPasswordEncoder(user));
         userRepository.save(user);
     }
 
@@ -47,6 +48,7 @@ public class UsersServiceImp implements UserService, UserDetailsService {
     @Transactional
     @Override
     public void updateUser(User user) {
+        user.setPassword(getPasswordEncoder(user));
         userRepository.save(user);
     }
 

@@ -25,7 +25,11 @@ public class AdminController {
         this.roleServiceImp = roleServiceImp;
     }
 
-
+    //    @GetMapping("/")
+//    public String show(@RequestParam(value = "id", required = false) long id, Model model) {
+//        model.addAttribute("getUserId", usersServiceImp.findUserById(id));
+//        return "admin/show";
+//    }
     @GetMapping()
     public String showAll(ModelMap model, Principal principal) {
         model.addAttribute("userss", usersServiceImp.getAllUsers());
@@ -38,7 +42,6 @@ public class AdminController {
 
     @PostMapping
     public String create(@ModelAttribute("user") User user) {
-        user.setPassword(usersServiceImp.getPasswordEncoder(user));
         usersServiceImp.saveUser(user);
         return "redirect:/admin";
     }
@@ -46,7 +49,6 @@ public class AdminController {
 
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("user") User user, @PathVariable("id") long id) {
-        user.setPassword(usersServiceImp.getPasswordEncoder(user));
         usersServiceImp.updateUser(user);
         return "redirect:/admin";
     }

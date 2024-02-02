@@ -40,7 +40,7 @@ public class DBInit implements ApplicationListener<ContextRefreshedEvent> {
         if (usersServiceImp.findByUsername("user") == null) {
             User user = new User();
             user.setUsername("user");
-            user.setPassword(passwordEncoder.encode("user"));
+            user.setPassword("user");
             user.setEmail("test_email");
             Set<Role> role = new HashSet<>();
             role.add(userRole);
@@ -50,7 +50,7 @@ public class DBInit implements ApplicationListener<ContextRefreshedEvent> {
         if (usersServiceImp.findByUsername("admin") == null) {
             User admin = new User();
             admin.setUsername("admin");
-            admin.setPassword(passwordEncoder.encode("admin"));
+            admin.setPassword("admin");
             admin.setEmail("test_email");
             Set<Role> role = new HashSet<>();
             role.add(adminRole);
