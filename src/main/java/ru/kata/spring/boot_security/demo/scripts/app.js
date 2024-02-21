@@ -19,7 +19,7 @@ async function showFriendsList() {
         const response = await fetch(api, {
             mode: 'no-cors'
         })
-        console.log(response)
+
         if (response.ok) {
             const data = await response.json()
             createCards(data)
