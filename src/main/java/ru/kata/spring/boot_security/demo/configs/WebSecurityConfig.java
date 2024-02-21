@@ -14,7 +14,7 @@ import ru.kata.spring.boot_security.demo.service.UsersServiceImp;
 
 
 @EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter  implements WebMvcConfigurer {
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter   {
     private final SuccessUserHandler successUserHandler;
     private final UsersServiceImp userServiceImp;
 
@@ -64,16 +64,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter  implements 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(12);
-    }
-
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("http://localhost:63342") // Разрешить доступ с этого домена
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS")
-                .allowedHeaders("*")
-                .allowCredentials(true)
-                .maxAge(3600);
     }
 
 }
