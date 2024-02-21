@@ -35,6 +35,7 @@ public class AdminController {
 
     @GetMapping()
     public List<User> getPeople() {
+        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         return usersServiceImp.getAllUsers();
     }
 
