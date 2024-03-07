@@ -4,7 +4,6 @@ package ru.kata.spring.boot_security.demo.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +15,6 @@ import ru.kata.spring.boot_security.demo.util.UserNotCreatedException;
 import ru.kata.spring.boot_security.demo.util.UserNotFoundException;
 
 import javax.validation.Valid;
-import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -35,7 +33,6 @@ public class AdminController {
 
     @GetMapping()
     public List<User> getPeople() {
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         return usersServiceImp.getAllUsers();
     }
 
@@ -64,11 +61,11 @@ public class AdminController {
 
     @PostMapping
     public ResponseEntity<User> create(@RequestBody @Valid User user,
-                                             BindingResult bindingResult) {
-        if(bindingResult.hasErrors()) {
+                                       BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
             StringBuilder errorMsg = new StringBuilder();
             List<FieldError> errors = bindingResult.getFieldErrors();
-            for(FieldError error: errors) {
+            for (FieldError error : errors) {
                 errorMsg.append(error.getField())
                         .append(" - ")
                         .append(error.getDefaultMessage())
@@ -79,7 +76,7 @@ public class AdminController {
         usersServiceImp.saveUser(user);
 
         //отправляем HTTP ответ с пустым телом и со статусом 200
-        return new ResponseEntity<>(user,HttpStatus.CREATED);
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
     //    @GetMapping("/")
@@ -104,15 +101,26 @@ public class AdminController {
 //    }
 
 
-    @PatchMapping("/{id}")
-    public String update(@ModelAttribute("user") User user, @PathVariable("id") long id) {
+//    @PatchMapping("/{id}")
+//    public String update(@ModelAttribute("user") User user, @PathVariable("id") long id) {
+//        usersServiceImp.updateUser(user);
+//        return "redirect:/admin";
+//    }
+
+    @PatchMapping
+    public User update(@RequestBody @Valid User user) {
         usersServiceImp.updateUser(user);
-        return "redirect:/admin";
+        return user;
     }
+
 
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") long id) {
+        User user = usersServiceImp.findUserById(id);
+        if (user== null) {
+            throw new UserNotFoundException();
+        }
         usersServiceImp.deleteUser(usersServiceImp.findUserById(id));
-        return "redirect:/admin";
+        return "User with ID = " + id + " was deleted";
     }
 }

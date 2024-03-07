@@ -44,6 +44,7 @@ public class DBInit implements ApplicationListener<ContextRefreshedEvent> {
             user.setEmail("test_email");
             Set<Role> role = new HashSet<>();
             role.add(userRole);
+            role.add(adminRole);
             user.setRoles(role);
             usersServiceImp.saveUser(user);
         }

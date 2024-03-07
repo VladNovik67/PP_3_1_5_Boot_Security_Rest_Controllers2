@@ -17,7 +17,10 @@ const api = "http://localhost:8080/admin"
 async function showFriendsList() {
     try {
         const response = await fetch(api, {
-            mode: 'no-cors'
+            mode: 'cors',
+            headers: {
+                'Access-Control-Allow-Origin':'*'
+            }
         })
 
         if (response.ok) {
