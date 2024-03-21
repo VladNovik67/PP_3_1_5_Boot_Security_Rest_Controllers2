@@ -107,8 +107,12 @@ public class AdminController {
 //        return "redirect:/admin";
 //    }
 
-    @PatchMapping
+    @PutMapping
     public User update(@RequestBody @Valid User user) {
+        System.out.println("Name"+  user.getUsername());
+        System.out.println("Email"+  user.getEmail());
+        System.out.println("Roles"+  user.getRoles());
+        System.out.println("PASSWORD"+  user.getPassword());
         usersServiceImp.updateUser(user);
         return user;
     }
@@ -117,7 +121,7 @@ public class AdminController {
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") long id) {
         User user = usersServiceImp.findUserById(id);
-        if (user== null) {
+        if (user == null) {
             throw new UserNotFoundException();
         }
         usersServiceImp.deleteUser(usersServiceImp.findUserById(id));
