@@ -10,7 +10,7 @@ public class RefactorErrorBrowser implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:63342") // Разрешить доступ с этого домена
+                .allowedOrigins("http://localhost:63343") // Разрешить доступ с этого домена
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(true)
