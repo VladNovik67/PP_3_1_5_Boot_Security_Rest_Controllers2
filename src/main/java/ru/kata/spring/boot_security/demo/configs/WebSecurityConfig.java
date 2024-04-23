@@ -28,27 +28,27 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter   {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-//                .csrf().disable()
-//                .authorizeRequests()
-//                .antMatchers("/", "/index").permitAll()
-//                .antMatchers("/admin/**").hasAuthority("ADMIN")
-//                .antMatchers("/user/**", "/user").hasAnyAuthority("USER", "ADMIN")
-//                .anyRequest().authenticated()
-//                .and()
-//                .formLogin().successHandler(successUserHandler)
-//                .permitAll()
-//                .and()
-//                .logout()
-//                .permitAll()
-
-
                 .csrf().disable()
                 .authorizeRequests()
-                .anyRequest().permitAll()
+                .antMatchers("/", "/index").permitAll()
+                .antMatchers("/admin/**").hasAuthority("ADMIN")
+                .antMatchers("/user/**", "/user").hasAnyAuthority("USER", "ADMIN")
+                .anyRequest().authenticated()
                 .and()
-                .formLogin().permitAll()
+                .formLogin().successHandler(successUserHandler)
+                .permitAll()
                 .and()
-                .logout().permitAll();
+                .logout()
+                .permitAll()
+
+
+//                .csrf().disable()
+//                .authorizeRequests()
+//                .anyRequest().permitAll()
+//                .and()
+//                .formLogin().permitAll()
+//                .and()
+//                .logout().permitAll();
         ;
     }
 
