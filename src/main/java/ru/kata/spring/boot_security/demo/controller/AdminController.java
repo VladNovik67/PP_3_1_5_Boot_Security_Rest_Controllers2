@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+import ru.kata.spring.boot_security.demo.entities.Role;
 import ru.kata.spring.boot_security.demo.entities.User;
 import ru.kata.spring.boot_security.demo.service.RoleServiceImp;
 import ru.kata.spring.boot_security.demo.service.UsersServiceImp;
@@ -18,6 +19,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+//@Secured("ROLE_ADMIN")
 @RequestMapping("/admin")
 public class AdminController {
 
@@ -31,10 +33,26 @@ public class AdminController {
         this.roleServiceImp = roleServiceImp;
     }
 
-    @GetMapping()
+    @GetMapping("/all")
     public List<User> getPeople() {
         return usersServiceImp.getAllUsers();
     }
+
+    @GetMapping("/roles")
+    public ResponseEntity<List<Role>> getRoles() {
+        List<Role> roles = roleServiceImp.findAllRoles();
+        return !roles.isEmpty()
+                ? new ResponseEntity<>(roles,HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+//    @GetMapping()
+//    public ResponseEntity<List<User>> getPeople() {
+//        List<User> users = usersServiceImp.getAllUsers();
+//        return !users.isEmpty()
+//                ? new ResponseEntity<>(users, HttpStatus.OK)
+//                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//    }
 
     @GetMapping("/{id}")
     public User getUser(@PathVariable("id") long id) {
@@ -109,10 +127,10 @@ public class AdminController {
 
     @PutMapping
     public User update(@RequestBody @Valid User user) {
-        System.out.println("Name"+  user.getUsername());
-        System.out.println("Email"+  user.getEmail());
-        System.out.println("Roles"+  user.getRoles());
-        System.out.println("PASSWORD"+  user.getPassword());
+        System.out.println("Name" + user.getUsername());
+        System.out.println("Email" + user.getEmail());
+        System.out.println("Roles" + user.getRoles());
+        System.out.println("PASSWORD" + user.getPassword());
         usersServiceImp.updateUser(user);
         return user;
     }
