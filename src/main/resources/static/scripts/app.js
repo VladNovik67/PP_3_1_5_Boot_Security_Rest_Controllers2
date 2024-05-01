@@ -131,8 +131,8 @@ async function showDeleteModal(id) {
     const form = document.forms["deleteForm"];
 
     form.idDeleteUser.value = user.id;
-    form.firstNameDeleteUser.value = user.username;
-    form.lastNameDeleteUser.value = user.lastName;
+    form.usernameDeleteUser.value = user.username;
+    // form.lastNameDeleteUser.value = user.lastName;
     form.emailDeleteUser.value = user.email;
 
 
