@@ -175,10 +175,12 @@ async function newUser() {
     const createLink = document.querySelector('#addNewUser')
     const createButton = document.querySelector('#createUserButton')
 
+
+
     createLink.addEventListener('click', (event) => {
         event.preventDefault()
         createForm.style.display = 'block'
-        // console.log("createForm.style.display = 'block'")
+        console.log("createForm.style.display = 'block'")
     })
     createForm.addEventListener('submit', addNewUser)
     createButton.addEventListener('click', addNewUser)
@@ -193,7 +195,7 @@ async function newUser() {
             })
         }
 
-        fetch("/admin/users", {
+        fetch("/admin", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -206,7 +208,9 @@ async function newUser() {
             })
         }).then(() => {
             createForm.reset();
+
             $(async function () {
+                console.log("await getAllUsers()")
                 await getAllUsers()
             })
         })
@@ -222,29 +226,29 @@ $('#delete').on('show.bs.modal', ev => {
     showDeleteModal(id)
 })
 
-async function getUser(id) {
-    let response = await fetch("/admin/" + id)
-    return await response.json()
-}
+// async function getUser(id) {
+//     let response = await fetch("/admin/" + id)
+//     return await response.json()
+// }
 
 
-async function showDeleteModal(id) {
-    let user = await getUser(id)
-    const form = document.forms["deleteForm"]
-
-    form.idDeleteUser.value = user.id
-    form.usernameDeleteUser.value = user.username
-    form.emailDeleteUser = user.email
-
-    $('#rolesDeleteUser').empty()
-
-    user.roles.forEach(role => {
-        let el = document.createElement('option')
-        el.text = role.name.substring(5)
-        el.value = role.id
-        $('#rolesDeleteUser')[0].appendChild(el)
-    })
-}
+// async function showDeleteModal(id) {
+//     let user = await getUser(id)
+//     const form = document.forms["deleteForm"]
+//
+//     form.idDeleteUser.value = user.id
+//     form.usernameDeleteUser.value = user.username
+//     form.emailDeleteUser = user.email
+//
+//     $('#rolesDeleteUser').empty()
+//
+//     user.roles.forEach(role => {
+//         let el = document.createElement('option')
+//         el.text = role.name.substring(5)
+//         el.value = role.id
+//         $('#rolesDeleteUser')[0].appendChild(el)
+//     })
+// }
 
 $('#deleteUserButton').click(() => {
     removeUser()
@@ -256,7 +260,7 @@ async function removeUser() {
 
     deleteForm.addEventListener("submit", ev => {
         ev.preventDefault()
-        fetch("/admin/users/" + id, {
+        fetch("/admin/" + id, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -319,7 +323,7 @@ async function updateUser() {
             })
         }
 
-        fetch("/admin/users/" + id, {
+        fetch("/admin/" + id, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
