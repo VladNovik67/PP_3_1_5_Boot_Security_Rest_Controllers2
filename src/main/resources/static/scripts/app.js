@@ -44,8 +44,9 @@ async function getAuthUser() {
     await get("/api/users/user")
         .then(data => {
             console.log(data);
-            document.querySelector('#userName').textContent = data.username;
-            document.querySelector('#userRole').textContent = (data.roles.map(role => " " + role.name.substring(5)).join(' '));
+            document.querySelector('#userTName').textContent = data.username;
+            document.querySelector('#userRole').textContent = data.roles.map(ob => ob.name).join(' ');
+
 
             var userDataInfo = document.getElementById('userDataInfo');
             if (userDataInfo == null) {
@@ -186,6 +187,7 @@ async function newUser() {
     createButton.addEventListener('click', addNewUser)
 
     async function addNewUser(e) {
+        console.log("async function addNewUser(e)")
         e.preventDefault();
         let newUserRoles = [];
         for (let i = 0; i < createForm.role.options.length; i++) {
@@ -323,16 +325,16 @@ async function updateUser() {
             })
         }
 
-        fetch("/admin/" + id, {
+        fetch("/admin" , {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
                 id : id,
-                username : editForm.username.value,
+                username : editForm.usernameEditUser.value,
                 password : editForm.passwordEditUser.value,
-                email : editForm.email.value,
+                email : editForm.emailEditUser.value,
                 roles : editUserRoles
             }),
         })
