@@ -313,6 +313,7 @@ $('#editUserButton').click(() => {
 
 async function updateUser() {
     const editForm = document.forms["editForm"]
+    console.log("editForm"+editForm.idEditUser.value)
     const id = editForm.idEditUser.value
 
     editform.addEventListener("submit", async (ev) => {
