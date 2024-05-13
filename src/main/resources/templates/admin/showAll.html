@@ -64,24 +64,9 @@
         <div class="col-11">
             <div class="tab-content" id="v-pills-tabContent">
                 <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
-                     aria-labelledby="v-pills-home-tab" >
+                     aria-labelledby="v-pills-home-tab" tabindex="0">
                     <div class="col-md">
                         <h2>Admin panel</h2>
-
-<!--                        <nav>-->
-<!--                            <div class="nav nav-tabs" id="nav-tab" role="tablist">-->
-<!--                                <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab"-->
-<!--                                        data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home"-->
-<!--                                        aria-selected="true">Users table-->
-<!--                                </button>-->
-<!--                                <button class="nav-link" id="addNewUser" data-bs-toggle="tab"-->
-<!--                                        data-bs-target="#nav-profile" type="button" role="tab"-->
-<!--                                        aria-controls="nav-profile" aria-selected="false">New User-->
-<!--                                </button>-->
-
-<!--                            </div>-->
-<!--                        </nav>-->
-
 
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                             <li class="nav-item">
@@ -101,15 +86,26 @@
 <!--                                   aria-controls="home" aria-selected="true">Users table</a>-->
 <!--                            </li>-->
 <!--                            <li class="nav-item">-->
+<!--                                <a class="nav-link" id="addNewUser" data-toggle="tab" href="#profile" role="tab"-->
+<!--                                   aria-controls="profile" aria-selected="false">New User</a>-->
+<!--                            </li>-->
+<!--                        </ul>-->
+
+
+<!--                        <ul class="nav nav-tabs" id="myTab" role="tablist">-->
+<!--                            <li class="nav-item">-->
+<!--                                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"-->
+<!--                                   aria-controls="home" aria-selected="true">Users table</a>-->
+<!--                            </li>-->
+<!--                            <li class="nav-item">-->
 <!--                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"-->
 <!--                                   aria-controls="profile" aria-selected="false">New User</a>-->
 <!--                            </li>-->
 <!--                        </ul>-->
 
 
-                        <div class="tab-content" id="nav-tabContent">
-                            <div class="tab-pane fade show active" id="nav-home" role="tabpanel"
-                                 aria-labelledby="home-tab" >
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
                                 <div class="container-fluid">
                                     <div class="alert alert-secondary" role="alert">
                                         <h5 class="card-header">All users</h5>
@@ -132,8 +128,7 @@
                                 </div>
                             </div>
 
-                            <div class="tab-pane  fade" id="profile" role="tabpanel"
-                                 aria-labelledby="addNewUser" >
+                            <div class="tab-pane  fade" id="profile" role="tabpanel" aria-labelledby="addNewUser" tabindex="0">
                                 <div class="form-group">
                                     <div class="control-group required">
                                         <div class="card">
@@ -183,7 +178,7 @@
                     </div>
                 </div>
 
-            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab" >
+            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab" tabindex="0">
                 <br><br>
                 <div class="container-fluid">
                     <div class="row">

@@ -29,8 +29,8 @@ async function post(url = "", data = {}) {
 async function get(url = "") {
     const response = await fetch(getDomain() + url, {
         method: "GET",
-        cache: "no-cache",
-        credentials: "same-origin",
+        // cache: "no-cache",
+        // credentials: "same-origin",
         headers: {
             "Content-Type": "application/json",
         },
