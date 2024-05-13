@@ -118,6 +118,7 @@ async function getAllUsers() {
                 tr.appendChild(del);
                 del.innerHTML = '<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-id="' + elem.id + '" data-bs-target="#delete">Delete</button>'
                 del.onclick = function () {
+                    console.log("showDeleteModal(elem.id);-"+ id)
                     showDeleteModal(elem.id);
                 };
 
@@ -127,37 +128,6 @@ async function getAllUsers() {
 }
 
 
-async function showDeleteModal(id) {
-    let user = await getUser(id)
-    const form = document.forms["deleteForm"];
-
-    form.idDeleteUser.value = user.id;
-    form.usernameDeleteUser.value = user.username;
-    // form.lastNameDeleteUser.value = user.lastName;
-    form.emailDeleteUser.value = user.email;
-
-
-    $('#rolesDeleteUser').empty();
-
-    user.roles.forEach(role => {
-        let el = document.createElement("option");
-        el.text = role.name.substring(5);
-        el.value = role.id;
-        $('#rolesDeleteUser')[0].appendChild(el);
-    });
-
-}
-
-$('#delete').on('show.bs.modal', ev => {
-    let button = $(ev.relatedTarget);
-    let id = button.data('id');
-    showDeleteModal(id);
-})
-
-async function getUser(id) {
-    let response = await fetch("/admin/" + id);
-    return await response.json();
-}
 
 async function newUser() {
     fetch("/admin/roles")
@@ -166,7 +136,8 @@ async function newUser() {
             roles.forEach(role => {
                 let el = document.createElement("option")
                 el.value = role.id
-                el.text = role.name.substring(5)
+                el.text = role.name
+
                 $('#rolesNew')[0].appendChild(el)
             })
         }).catch(error => console.log(error))
@@ -219,14 +190,146 @@ async function newUser() {
     }
 }
 
+
+$('#delete').on('show.bs.modal', ev => {
+    let button = $(ev.relatedTarget);
+    let id = button.data('id');
+    console.log("showDeleteModal(elem.id);-"+ id)
+    showDeleteModal(id);
+})
+
+async function getUser(id) {
+    let response = await fetch("/admin/" + id);
+    return await response.json();
+}
+
+async function showDeleteModal(id) {
+    let user = await getUser(id)
+    const form = document.forms["deleteForm"];
+console.log("showDeleteModal-"+ id)
+    form.idDeleteUser.value = user.id;
+    form.usernameDeleteUser.value = user.username;
+    // form.lastNameDeleteUser.value = user.lastName;
+    form.emailDeleteUser.value = user.email;
+
+
+    $('#rolesDeleteUser').empty();
+
+    user.roles.forEach(role => {
+        let el = document.createElement("option");
+        el.text = role.name.substring(5);
+        el.value = role.id;
+        $('#rolesDeleteUser')[0].appendChild(el);
+    });
+
+}
+
+$('#deleteUserButton').click(() => {
+    console.log("$('#deleteUserButton').click")
+    removeUser()
+})
+
+async function removeUser() {
+    const deleteForm = document.forms["deleteForm"]
+    const id = deleteForm.idDeleteUser.value
+    console.log("delete- "+ id)
+
+    deleteForm.addEventListener("submit", ev => {
+        ev.preventDefault()
+        fetch("/admin/" + id, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(() => {
+            getAllUsers()
+            $('#topCloseButtonDelete').click()
+        }).catch(error => console.log(error))
+    })
+}
+
+
+//Edit
+
+$('#edit').on('show.bs.modal', (ev) => {
+    let button = $(ev.relatedTarget)
+    let id = button.data('id')
+    showEditModal(id)
+})
+
+
+async function showEditModal(id) {
+    let user = await getUser(id)
+    const form = document.forms["editForm"]
+
+    form.idEditUser.value = user.id
+    form.usernameEditUser.value = user.username
+    form.passwordEditUser.value = user.password
+    form.emailEditUser.value = user.email
+
+    $('#rolesEditUser').empty()
+    fetch("/admin/roles")
+        .then(response => response.json())
+        .then(roles => {
+            roles.forEach(role => {
+                let el = document.createElement("option")
+                el.value = role.id
+                el.text = role.name
+                $('#rolesEditUser')[0].appendChild(el)
+            })
+        })
+}
+
+$('#editUserButton').click(() => {
+    updateUser()
+})
+
+
+async function updateUser() {
+    const editForm = document.forms["editForm"]
+    console.log("editForm" + editForm.idEditUser.value)
+    const id = editForm.idEditUser.value
+
+    editForm.addEventListener("submit", async (ev) => {
+        ev.preventDefault()
+        let editUserRoles = []
+        for (let i = 0; i < editForm.rolesEditUser.options.length; i++) {
+            if (editForm.rolesEditUser.options[i].selected) editUserRoles.push({
+                id: editForm.rolesEditUser.options[i].value,
+                role: editForm.rolesEditUser.options[i].text
+            })
+        }
+
+        fetch("/admin", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                id: id,
+                username: editForm.usernameEditUser.value,
+                password: editForm.passwordEditUser.value,
+                email: editForm.emailEditUser.value,
+                roles: editUserRoles
+            }),
+        })
+            .then(() => {
+                getAllUsers()
+                $('#editFormCloseButton').click()
+            })
+
+    })
+}
+
 // Delete
 
 
-$('#delete').on('show.bs.modal', ev => {
-    let button = $(ev.relatedTarget)
-    let id = button.data('id')
-    showDeleteModal(id)
-})
+// $('#delete').on('show.bs.modal', ev => {
+//     let button = $(ev.relatedTarget)
+//     let id = button.data('id')
+//
+//     showDeleteModal(id)
+// })
 
 // async function getUser(id) {
 //     let response = await fetch("/admin/" + id)
@@ -252,100 +355,11 @@ $('#delete').on('show.bs.modal', ev => {
 //     })
 // }
 
-$('#deleteUserButton').click(() => {
-    removeUser()
-})
-
-async function removeUser() {
-    const deleteForm = document.forms["deleteForm"]
-    const id = deleteForm.idDeleteUser.value
-
-    deleteForm.addEventListener("submit", ev => {
-        ev.preventDefault()
-        fetch("/admin/" + id, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then(() => {
-            getAllUsers()
-            $('#topCloseButtonDelete').click()
-        }).catch(error => console.log(error))
-    })
-}
-
-//Edit
 
 
-$('#edit').on('show.bs.modal', (ev) => {
-    let button = $(ev.relatedTarget)
-    let id = button.data('id')
-    showEditModal(id)
-})
 
 
-async function showEditModal(id) {
-    let user = await getUser(id)
-    const form = document.forms["editForm"]
 
-    form.idEditUser.value = user.id
-    form.usernameEditUser.value = user.username
-    form.passwordEditUser.value = user.password
-    form.emailEditUser.value = user.email
-
-    $('#rolesEditUser').empty()
-    fetch("/admin/roles")
-        .then(response => response.json())
-        .then(roles => {
-            roles.forEach(role => {
-                let el = document.createElement("option")
-                el.value = role.id
-                el.text = role.name.substring(5)
-                $('#rolesEditUser')[0].appendChild(el)
-            })
-        })
-}
-
-$('#editUserButton').click(() => {
-    updateUser()
-})
-
-
-async function updateUser() {
-    const editForm = document.forms["editForm"]
-    console.log("editForm"+editForm.idEditUser.value)
-    const id = editForm.idEditUser.value
-
-    editform.addEventListener("submit", async (ev) => {
-        ev.preventDefault()
-        let editUserRoles = []
-        for (let i = 0; i < editForm.rolesEditUser.options.length; i++) {
-            if (editForm.rolesEditUser.options[i].selected) editUserRoles.push({
-                id: editForm.rolesEditUser.options[i].value,
-                role: editForm.rolesEditUser.options[i].text
-            })
-        }
-
-        fetch("/admin" , {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                id : id,
-                username : editForm.usernameEditUser.value,
-                password : editForm.passwordEditUser.value,
-                email : editForm.emailEditUser.value,
-                roles : editUserRoles
-            }),
-        })
-            .then(() => {
-                getAllUsers()
-                $('#editFormCloseButton').click()
-            })
-
-    })
-}
 
 //window.onload = function() {
 //    getAuthUser();
