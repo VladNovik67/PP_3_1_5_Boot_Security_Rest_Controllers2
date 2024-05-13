@@ -118,7 +118,7 @@ async function getAllUsers() {
                 tr.appendChild(del);
                 del.innerHTML = '<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-id="' + elem.id + '" data-bs-target="#delete">Delete</button>'
                 del.onclick = function () {
-                    console.log("showDeleteModal(elem.id);-"+ id)
+                    console.log("showDeleteModal(elem.id);-" + id)
                     showDeleteModal(elem.id);
                 };
 
@@ -126,7 +126,6 @@ async function getAllUsers() {
         })
         .catch(error => console.log(error))
 }
-
 
 
 async function newUser() {
@@ -146,7 +145,6 @@ async function newUser() {
     const createForm = document.forms["createForm"]
     const createLink = document.querySelector('#addNewUser')
     const createButton = document.querySelector('#createUserButton')
-
 
 
     createLink.addEventListener('click', (event) => {
@@ -194,7 +192,7 @@ async function newUser() {
 $('#delete').on('show.bs.modal', ev => {
     let button = $(ev.relatedTarget);
     let id = button.data('id');
-    console.log("showDeleteModal(elem.id);-"+ id)
+    console.log("showDeleteModal(elem.id);-" + id)
     showDeleteModal(id);
 })
 
@@ -206,10 +204,9 @@ async function getUser(id) {
 async function showDeleteModal(id) {
     let user = await getUser(id)
     const form = document.forms["deleteForm"];
-console.log("showDeleteModal-"+ id)
+    console.log("showDeleteModal-" + id)
     form.idDeleteUser.value = user.id;
     form.usernameDeleteUser.value = user.username;
-    // form.lastNameDeleteUser.value = user.lastName;
     form.emailDeleteUser.value = user.email;
 
 
@@ -232,7 +229,7 @@ $('#deleteUserButton').click(() => {
 async function removeUser() {
     const deleteForm = document.forms["deleteForm"]
     const id = deleteForm.idDeleteUser.value
-    console.log("delete- "+ id)
+    console.log("delete- " + id)
 
     deleteForm.addEventListener("submit", ev => {
         ev.preventDefault()
@@ -322,146 +319,3 @@ async function updateUser() {
 }
 
 // Delete
-
-
-// $('#delete').on('show.bs.modal', ev => {
-//     let button = $(ev.relatedTarget)
-//     let id = button.data('id')
-//
-//     showDeleteModal(id)
-// })
-
-// async function getUser(id) {
-//     let response = await fetch("/admin/" + id)
-//     return await response.json()
-// }
-
-
-// async function showDeleteModal(id) {
-//     let user = await getUser(id)
-//     const form = document.forms["deleteForm"]
-//
-//     form.idDeleteUser.value = user.id
-//     form.usernameDeleteUser.value = user.username
-//     form.emailDeleteUser = user.email
-//
-//     $('#rolesDeleteUser').empty()
-//
-//     user.roles.forEach(role => {
-//         let el = document.createElement('option')
-//         el.text = role.name.substring(5)
-//         el.value = role.id
-//         $('#rolesDeleteUser')[0].appendChild(el)
-//     })
-// }
-
-
-
-
-
-
-
-//window.onload = function() {
-//    getAuthUser();
-//
-//    var url = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
-//    if (url == "admin") {
-//        getAllUsers();
-//
-//
-////        await newUser();
-////        await removeUser();
-////        await updateUser();
-//    }
-//}
-
-
-//
-// //Подключение к базе данных:
-// // const mysql = require("mysql2");
-// // const connection = mysql.createConnection({
-// //     host: 'localhost:8080',
-// //     user: 'root',
-// //     password: 'Guantanama20237654!',
-// //     database: 'jdbc:mysql://localhost:3306/mydbtest2'
-// // });
-// // connection.connect();
-//
-// const innerContainer = document.querySelector('.inner')
-// const btn = document.querySelector('.btn')
-// const api = "http://localhost:8080/admin"
-//
-//
-// async function showFriendsList() {
-//     try {
-//         const response = await fetch(api, {
-//             mode: 'cors',
-//             headers: {
-//                 'Access-Control-Allow-Origin':'*'
-//             }
-//         })
-//
-//         if (response.ok) {
-//             const data = await response.json()
-//             createCards(data)
-//         } else {
-//             console.log("Error HTTP: " + response.status)
-//         }
-//     } catch (error) {
-//         console.log("Ошибка при выполнении запроса: " + error.message)
-//     }
-// }
-//
-// showFriendsList()
-//
-// function createCards(cardsData) {
-//     cardsData.forEach(cardData => {
-//         const card =
-//             `<div class="card">
-//
-//                 <div class="card_name">${cardData.username}</div>
-//                 <div class="card_email">${cardData.email}</div>
-//
-//             </div>`
-//         innerContainer.insertAdjacentHTML('beforeEnd',card)
-//     })
-// }
-//
-// btn.addEventListener('click', function () {
-//     if (innerContainer.childElementCount>0) {
-//         innerContainer.innerHTML = ''
-//     } else {
-//         showFriendsList()
-//     }
-//
-// })
-//
-
-
-// let promise = fetch(url)
-//
-// let response = await fetch(url);
-//
-// if (response.ok) { // если HTTP-статус в диапазоне 200-299
-//                    // получаем тело ответа (см. про этот метод ниже)
-//     let json = await response.json();
-// } else {
-//     alert("Ошибка HTTP: " + response.status);
-// }
-//
-//
-// //Выполнение запросов к базе данных:
-// connection.query('SELECT * FROM users', function (err, results, fields) {
-//     if (err) throw err;
-//     console.log(results);
-// });
-//
-//
-// //Выполнение запросов к базе данных:
-// connection.query('SELECT * FROM users', function (err, results, fields) {
-//     if (err) throw err;
-//     console.log(results);
-// });
-//
-// //Закрытие соединения с базой данных:
-// connection.end();
