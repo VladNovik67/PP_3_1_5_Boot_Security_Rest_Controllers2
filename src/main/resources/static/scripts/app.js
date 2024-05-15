@@ -214,7 +214,7 @@ async function showDeleteModal(id) {
 
     user.roles.forEach(role => {
         let el = document.createElement("option");
-        el.text = role.name.substring(5);
+        el.text = role.name;
         el.value = role.id;
         $('#rolesDeleteUser')[0].appendChild(el);
     });
