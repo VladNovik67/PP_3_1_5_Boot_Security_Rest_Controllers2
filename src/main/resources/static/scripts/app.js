@@ -251,6 +251,7 @@ async function removeUser() {
 $('#edit').on('show.bs.modal', (ev) => {
     let button = $(ev.relatedTarget)
     let id = button.data('id')
+    console.log("$('#edit').on('show.bs.modal', (ev) => {---" + id)
     showEditModal(id)
 })
 
@@ -284,11 +285,12 @@ $('#editUserButton').click(() => {
 
 async function updateUser() {
     const editForm = document.forms["editForm"]
-    console.log("editForm" + editForm.idEditUser.value)
+    console.log("editForm-" + editForm.idEditUser.value)
     const id = editForm.idEditUser.value
 
     editForm.addEventListener("submit", async (ev) => {
         ev.preventDefault()
+        console.log("editForm.addEventListener(, async (ev) => {-" )
         let editUserRoles = []
         for (let i = 0; i < editForm.rolesEditUser.options.length; i++) {
             if (editForm.rolesEditUser.options[i].selected) editUserRoles.push({

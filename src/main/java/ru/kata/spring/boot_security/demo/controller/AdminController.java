@@ -127,11 +127,11 @@ public class AdminController {
 
     @PutMapping
     public User update(@RequestBody @Valid User user) {
-        System.out.println("Name" + user.getUsername());
-        System.out.println("Email" + user.getEmail());
-        System.out.println("Roles" + user.getRoles());
-        System.out.println("PASSWORD" + user.getPassword());
-        usersServiceImp.updateUser(user);
+        System.out.println("Name-" + user.getUsername());
+        System.out.println("Email-" + user.getEmail());
+        System.out.println("Roles-" + user.getRoles());
+        System.out.println("PASSWORD-" + user.getPassword());
+        usersServiceImp.saveUser(user);
         return user;
     }
 
