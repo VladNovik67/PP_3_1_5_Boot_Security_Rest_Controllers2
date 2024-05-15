@@ -11,26 +11,9 @@ function getDomain() {
     return "http://localhost:8080";
 }
 
-async function post(url = "", data = {}) {
-    const response = await fetch(getDomain() + url, {
-        method: "POST",
-        cache: "no-cache",
-        credentials: "same-origin",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        redirect: "follow",
-        referrerPolicy: "no-referrer",
-        body: JSON.stringify(data),
-    });
-    return response.json();
-}
-
 async function get(url = "") {
     const response = await fetch(getDomain() + url, {
         method: "GET",
-        // cache: "no-cache",
-        // credentials: "same-origin",
         headers: {
             "Content-Type": "application/json",
         },
@@ -46,7 +29,6 @@ async function getAuthUser() {
             console.log(data);
             document.querySelector('#userTName').textContent = data.username;
             document.querySelector('#userRole').textContent = data.roles.map(ob => ob.name).join(' ');
-
 
             var userDataInfo = document.getElementById('userDataInfo');
             if (userDataInfo == null) {
@@ -143,20 +125,14 @@ async function newUser() {
 
 
     const createForm = document.forms["createForm"]
-    const createLink = document.querySelector('#addNewUser')
     const createButton = document.querySelector('#createUserButton')
-
-
-    createLink.addEventListener('click', (event) => {
-        event.preventDefault()
-        createForm.style.display = 'block'
-        console.log("createForm.style.display = 'block'")
+    createButton.addEventListener('click', (event) => {
+        document.getElementById('home-tab').click();
     })
+
     createForm.addEventListener('submit', addNewUser)
-    createButton.addEventListener('click', addNewUser)
 
     async function addNewUser(e) {
-        console.log("async function addNewUser(e)")
         e.preventDefault();
         let newUserRoles = [];
         for (let i = 0; i < createForm.role.options.length; i++) {
@@ -181,7 +157,6 @@ async function newUser() {
             createForm.reset();
 
             $(async function () {
-                console.log("await getAllUsers()")
                 await getAllUsers()
             })
         })
@@ -204,14 +179,10 @@ async function getUser(id) {
 async function showDeleteModal(id) {
     let user = await getUser(id)
     const form = document.forms["deleteForm"];
-    console.log("showDeleteModal-" + id)
     form.idDeleteUser.value = user.id;
     form.usernameDeleteUser.value = user.username;
     form.emailDeleteUser.value = user.email;
-
-
     $('#rolesDeleteUser').empty();
-
     user.roles.forEach(role => {
         let el = document.createElement("option");
         el.text = role.name;
@@ -229,8 +200,6 @@ $('#deleteUserButton').click(() => {
 async function removeUser() {
     const deleteForm = document.forms["deleteForm"]
     const id = deleteForm.idDeleteUser.value
-    console.log("delete- " + id)
-
     deleteForm.addEventListener("submit", ev => {
         ev.preventDefault()
         fetch("/admin/" + id, {
@@ -259,12 +228,10 @@ $('#edit').on('show.bs.modal', (ev) => {
 async function showEditModal(id) {
     let user = await getUser(id)
     const form = document.forms["editForm"]
-
     form.idEditUser.value = user.id
     form.usernameEditUser.value = user.username
     form.passwordEditUser.value = user.password
     form.emailEditUser.value = user.email
-
     $('#rolesEditUser').empty()
     fetch("/admin/roles")
         .then(response => response.json())
@@ -278,19 +245,12 @@ async function showEditModal(id) {
         })
 }
 
-$('#editUserButton').click(() => {
-    updateUser()
-})
-
 
 async function updateUser() {
     const editForm = document.forms["editForm"]
-    console.log("editForm-" + editForm.idEditUser.value)
-    const id = editForm.idEditUser.value
-
     editForm.addEventListener("submit", async (ev) => {
+        const id = editForm.idEditUser.value
         ev.preventDefault()
-        console.log("editForm.addEventListener(, async (ev) => {-" )
         let editUserRoles = []
         for (let i = 0; i < editForm.rolesEditUser.options.length; i++) {
             if (editForm.rolesEditUser.options[i].selected) editUserRoles.push({

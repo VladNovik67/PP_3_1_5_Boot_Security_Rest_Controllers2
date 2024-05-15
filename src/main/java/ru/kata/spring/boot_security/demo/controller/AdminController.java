@@ -19,7 +19,6 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-//@Secured("ROLE_ADMIN")
 @RequestMapping("/admin")
 public class AdminController {
 
@@ -42,17 +41,10 @@ public class AdminController {
     public ResponseEntity<List<Role>> getRoles() {
         List<Role> roles = roleServiceImp.findAllRoles();
         return !roles.isEmpty()
-                ? new ResponseEntity<>(roles,HttpStatus.OK)
+                ? new ResponseEntity<>(roles, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-//    @GetMapping()
-//    public ResponseEntity<List<User>> getPeople() {
-//        List<User> users = usersServiceImp.getAllUsers();
-//        return !users.isEmpty()
-//                ? new ResponseEntity<>(users, HttpStatus.OK)
-//                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//    }
 
     @GetMapping("/{id}")
     public User getUser(@PathVariable("id") long id) {
@@ -92,45 +84,12 @@ public class AdminController {
             throw new UserNotCreatedException(errorMsg.toString());
         }
         usersServiceImp.saveUser(user);
-
-        //отправляем HTTP ответ с пустым телом и со статусом 200
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
-    //    @GetMapping("/")
-//    public String show(@RequestParam(value = "id", required = false) long id, Model model) {
-//        model.addAttribute("getUserId", usersServiceImp.findUserById(id));
-//        return "admin/show";
-//    }
-//    @GetMapping()
-//    public String showAll(ModelMap model, Principal principal) {
-//        model.addAttribute("userss", usersServiceImp.getAllUsers());
-//        model.addAttribute("loginUser", usersServiceImp.findByUsername(principal.getName()));
-//        model.addAttribute("roles", roleServiceImp.findAllRoles());
-//        model.addAttribute("userNew", new User());
-//        return "admin/showAll";
-//    }
-
-
-//    @PostMapping
-//    public String create(@ModelAttribute("user") User user) {
-//        usersServiceImp.saveUser(user);
-//        return "redirect:/admin";
-//    }
-
-
-//    @PatchMapping("/{id}")
-//    public String update(@ModelAttribute("user") User user, @PathVariable("id") long id) {
-//        usersServiceImp.updateUser(user);
-//        return "redirect:/admin";
-//    }
 
     @PutMapping
     public User update(@RequestBody @Valid User user) {
-        System.out.println("Name-" + user.getUsername());
-        System.out.println("Email-" + user.getEmail());
-        System.out.println("Roles-" + user.getRoles());
-        System.out.println("PASSWORD-" + user.getPassword());
         usersServiceImp.saveUser(user);
         return user;
     }
